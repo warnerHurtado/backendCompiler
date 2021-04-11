@@ -39,7 +39,7 @@ public class MyErrorListener extends BaseErrorListener {
     @Override
     public String toString ( )
     {
-        if ( !hasErrors() ) return "0 errors";
+        if ( !hasErrors() ) return "Ok";
         StringBuilder builder = new StringBuilder();
         for ( String s : errorMsgs )
         {

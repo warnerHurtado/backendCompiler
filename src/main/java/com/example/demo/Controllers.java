@@ -2,13 +2,11 @@ package com.example.demo;
 
 import generated.*;
 
+import netscape.javascript.JSObject;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -56,13 +54,7 @@ public class Controllers {
             }
             else {
                 System.out.println("Parser Error\n");
-                java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
-                //treeGUI.get().setVisible(true);
-                //System.out.println(errorListener.toString());
-
                 return errorListener.toString();
-                //return p;
-                //System.out.println(p);
             }
         }
 
@@ -73,7 +65,7 @@ public class Controllers {
 
 
     @GetMapping("/words")
-    public Response getWord(@RequestParam(value = "name", defaultValue = "Buhito") String name) {
+    public Response getWord(@RequestParam(value = "name") String name) {
         Response res;
         String result = test(name);
         try {
@@ -85,5 +77,22 @@ public class Controllers {
 
         return res;
     }
+
+    @PostMapping("/postWord")
+    public Response postWord(@RequestBody JSObject name){
+        Response res;
+        String result = test(name.toString());
+        System.out.println( name );
+        try {
+            test(name.toString());
+            res = new Response(String.format(data, result), "200");
+        }catch (Error error){
+            res = new Response(null, "500");
+        }
+
+        return res;
+    }
+
+
 
 }
