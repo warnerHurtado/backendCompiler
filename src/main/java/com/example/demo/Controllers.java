@@ -9,15 +9,36 @@ import org.antlr.v4.runtime.tree.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class Controllers {
     private static  final String data = "%s!";
 
-    private String test(String input){
+    //Metodo para crear y escribir en archivos
+    public static void crearEscribirArchivo(String nomArchi, String nuevoDato) {
+
+        try {
+            //String contenido = "Contenido de ejemplo";
+            File file = new File(nomArchi+".txt");
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nuevoDato);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String test(){
         miScanner inst = null;
         miParser parser = null;
         ParseTree tree=null;
@@ -25,7 +46,7 @@ public class Controllers {
         CommonTokenStream tokens = null;
         MyErrorListener errorListener = null;
         try {
-            inst = new miScanner(CharStreams.fromString(input));
+            inst = new miScanner(CharStreams.fromFileName("test.txt"));
             tokens = new CommonTokenStream(inst);
             parser = new miParser(tokens);
 
@@ -46,14 +67,12 @@ public class Controllers {
             }
 
             if ( !errorListener.hasErrors() ) {
-                System.out.println("Exitoso\n");
                 //java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
                 //treeGUI.get().setVisible(true);
 
                 return errorListener.toString();
             }
             else {
-                System.out.println("Parser Error\n");
                 return errorListener.toString();
             }
         }
@@ -64,12 +83,27 @@ public class Controllers {
     }
 
 
-    @GetMapping("/words")
+    @GetMapping("/getWords")
     public Response getWord(@RequestParam(value = "name") String name) {
         Response res;
-        String result = test(name);
+        String result = test();
+
+        System.out.println( name );
         try {
-            test(name);
+            res = new Response(String.format(data, result), "200");
+        }catch (Error error){
+            res = new Response(null, "500");
+        }
+
+        return res;
+    }
+
+    @GetMapping("/getAllWords")
+    public Response getAllWord() {
+        Response res;
+        String result = test();
+
+        try {
             res = new Response(String.format(data, result), "200");
         }catch (Error error){
             res = new Response(null, "500");
@@ -79,18 +113,9 @@ public class Controllers {
     }
 
     @PostMapping("/postWord")
-    public Response postWord(@RequestBody JSObject name){
-        Response res;
-        String result = test(name.toString());
-        System.out.println( name );
-        try {
-            test(name.toString());
-            res = new Response(String.format(data, result), "200");
-        }catch (Error error){
-            res = new Response(null, "500");
-        }
+    public void postWord(@RequestBody String name){
 
-        return res;
+        crearEscribirArchivo("test", name);
     }
 
 
