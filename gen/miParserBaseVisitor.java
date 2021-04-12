@@ -1,5 +1,4 @@
-// Generated from C:/Users/warne/Desktop/backCompilator\miParser.g4 by ANTLR 4.9.1
-package generated;
+// Generated from C:/Users/Huawei D14/Desktop/backendCompiler\miParser.g4 by ANTLR 4.9.1
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

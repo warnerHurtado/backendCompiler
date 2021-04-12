@@ -2,24 +2,21 @@ package com.example.demo;
 
 import generated.*;
 
-import netscape.javascript.JSObject;
+
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.*;
 import java.io.*;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class Controllers {
+
+
     private static  final String data = "%s!";
 
-    //Metodo para crear y escribir en archivos
+
     public static void crearEscribirArchivo(String nomArchi, String nuevoDato) {
 
         try {
@@ -39,6 +36,7 @@ public class Controllers {
     }
 
     private String test(){
+
         miScanner inst = null;
         miParser parser = null;
         ParseTree tree=null;

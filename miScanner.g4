@@ -1,4 +1,4 @@
-/*
+    /*
     Scanner - I Proyecto - Compiladores e Intérpretes
     Jose Ignacio Alfaro Solano - Warner Fidel Hurtado Laguna
 */
@@ -18,9 +18,9 @@ PCDER  : ']'   ;
 PUNTO  : '.'                                                                ;
 COMI   : '"'                                                                ;
 
-SUMA        : '+'                                                           ;
-RESTA       : '-'                                                           ;
-ADMIRACION    : '!'                                                         ;
+fragment SUMA        : '+'                                                           ;
+fragment RESTA       : '-'                                                           ;
+fragment ADMIRACION    : '!'                                                         ;
 
 fragment MAYOR : '>'     ;
 fragment IGUALES : '=='  ;
@@ -32,15 +32,12 @@ fragment MENOR : '<'                                                        ;
 ROPERATOR   : MENOR | MAYOR | IGUALES | DIFERENTE | MENORIGU | MAYORIGU ;
 
 STYPE     : 'boolean' | 'char' | 'int' | 'string'                        ;
-TRUE        : 'true'                                                    ;
-FALSE       : 'false'                                                   ;
-BTYPE     : TRUE | FALSE                        ;
 
 
-AND         : '&&'                                                      ;
-OR          : '||'                                                      ;
-DIVISION    : '/'                                                       ;
-MULTIPLI    : '*'                                                       ;
+fragment AND         : '&&'                                                      ;
+fragment OR          : '||'                                                      ;
+fragment DIVISION    : '/'                                                       ;
+fragment MULTIPLI    : '*'                                                       ;
 
 AOP       : SUMA | RESTA | OR                      ;
 MOP       : MULTIPLI | DIVISION | AND              ;
@@ -60,7 +57,7 @@ INTLITERAL       : DIGIT (DIGIT)* ;
 
 REALLITERAL      : DIGIT (DIGIT)* PUNTO (DIGIT)* | PUNTO DIGIT (DIGIT)* ;
 
-BOOLITERAL      : BTYPE ;
+BOOLITERAL      : 'true' | 'false' ;
 
 STRINGLITERAL    : COMI (PRINTABLE)* COMI ;
 
