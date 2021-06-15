@@ -165,10 +165,10 @@ public class Interprete extends miParserBaseVisitor {
             }
             else {
                 switch (tipo) {
-                    case "int" -> this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), 0);
-                    case "char" -> this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), ' ');
-                    case "string" -> this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), "");
-                    case "boolean" -> this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), false);
+                    case "int" : this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), 0);
+                    case "char" : this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), ' ');
+                    case "string" : this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), "");
+                    case "boolean" : this.almacenDatos.agregarInstancia(pilaExpresiones.pop()+"."+ctx.ID().getText(), false);
                     //Guardando la clase
                     //default -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), ctx.type().getText());
                 }
@@ -195,12 +195,12 @@ public class Interprete extends miParserBaseVisitor {
             }
             else {
                 switch (tipo) {
-                    case "int" -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), 0);
-                    case "char" -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), ' ');
-                    case "string" -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), "");
-                    case "boolean" -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), false);
+                    case "int" : this.almacenDatos.agregarInstancia(ctx.ID().getText(), 0);
+                    case "char" : this.almacenDatos.agregarInstancia(ctx.ID().getText(), ' ');
+                    case "string" : this.almacenDatos.agregarInstancia(ctx.ID().getText(), "");
+                    case "boolean" : this.almacenDatos.agregarInstancia(ctx.ID().getText(), false);
                     //Guardando la clase
-                    default -> this.almacenDatos.agregarInstancia(ctx.ID().getText(), ctx.type().getText() );
+                    default : this.almacenDatos.agregarInstancia(ctx.ID().getText(), ctx.type().getText() );
                 }
             }
         }else {
@@ -359,14 +359,18 @@ public class Interprete extends miParserBaseVisitor {
             }
 
         }
-        return switch (op) {
-            case "-" -> (Integer) v1 - (Integer) v2;
-            case "*" -> (Integer) v1 * (Integer) v2;
-            case "||" -> (Boolean) v1 || (Boolean) v2;
-            case "&&" -> (Boolean) v1 && (Boolean) v2;
-
-            default -> null;
-        };
+        if ( op.equals("-") ){
+            return (Integer) v1 - (Integer) v2;
+        }else if( op.equals("*") ){
+            return (Integer) v1 * (Integer) v2;
+        }else if( op.equals("||") ){
+            return (Boolean) v1 || (Boolean) v2;
+        }else if ( op.equals("&&") ){
+            return (Boolean) v1 && (Boolean) v2;
+        }else{
+            return null;
+        }
+        
     }
 
     @Override
