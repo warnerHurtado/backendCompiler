@@ -43,10 +43,10 @@ public class Controllers {
         Almacen alma = Almacen.getInstance();
         StringBuilder elJson = new StringBuilder("{");
         for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
-            elJson.append("dato_").append(i).append(": [");
-            elJson.append(alma.tablaAlmacen.get(i).nombre).append(",");
-            elJson.append(alma.tablaAlmacen.get(i).valor).append(",");
-            elJson.append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName());
+            elJson.append("\"dato_").append(i).append("\"").append(": [");
+            elJson.append("\"").append(alma.tablaAlmacen.get(i).nombre).append("\"").append(",");
+            elJson.append("\"").append(alma.tablaAlmacen.get(i).valor).append("\"").append(",");
+            elJson.append("\"").append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName()).append("\"");
             elJson.append("],");
         }
         elJson.append("}");
