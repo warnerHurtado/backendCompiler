@@ -2,8 +2,6 @@ package analysisContext;
 
 import generated.miParser;
 import generated.miParserBaseVisitor;
-import org.antlr.v4.runtime.ParserRuleContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -14,7 +12,7 @@ public class AnalisisContextual extends miParserBaseVisitor {
     private final TablaSimbolos tabla;
 
     List<String> types = new ArrayList<String>();
-    public String errors;
+    public String errors = "";
     private String funcType = null;
     private boolean isMethod = false;
 

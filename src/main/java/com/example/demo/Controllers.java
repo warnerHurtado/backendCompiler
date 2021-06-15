@@ -55,105 +55,70 @@ public class Controllers {
 
     }
 
-// Función que debe de ser sustituída en el archivo controller
-
-    private String test() {
-        String errores = "";
+    private String analizador(){
         miScanner inst = null;
         miParser parser = null;
         ParseTree tree=null;
-        AnalisisContextual ac = null;
-        Interprete inter = null;
-
+        CharStream input=null;
         CommonTokenStream tokens = null;
         MyErrorListener errorListener = null;
         try {
-            inst = new miScanner(CharStreams.fromFileName("test.txt"));
+            input = CharStreams.fromFileName("test.txt");
+            inst = new miScanner(input);
             tokens = new CommonTokenStream(inst);
             parser = new miParser(tokens);
-
             errorListener = new MyErrorListener();
-
             inst.removeErrorListeners();
             inst.addErrorListener( errorListener );
-
             parser.removeErrorListeners();
             parser.addErrorListener ( errorListener );
+            tree = parser.program();
+            AnalisisContextual ac = new AnalisisContextual();
+            Interprete inter = new Interprete();
 
 
-            try {
-                tree = parser.program();
-                ac = new AnalisisContextual();
-                inter = new Interprete();
-
-                ac.visit(tree);
-            }
-            catch(Exception e){
-
-                e.printStackTrace();
-            }
-
-            if ( !errorListener.hasErrors() ) {
-
-                 if ((ac.errors.equals(""))){
-                    assert inter != null;
-                    inter.visit(tree);
-
-
-                    return json();
-
+            if( !errorListener.hasErrors() ){ //Errores de parser y scanner
+                ac.visit(tree); // Visita al contextual
+                if ( ac.errors.length() == 0 ){ // Se verifica que el contextual no tenga errores
+                    System.out.println("Sin errores de contextualidad");
+                    inter.visit(tree); // Se debe de validar los errores
+                    System.out.println(json());
+                }else{
+                    // Se retorna los errores contextuales
+                    System.out.println("Con errores de contextualidad");
+                    return ac.errors;
                 }
-                errores = ac.errors;
-                return errores;
+            }else{
+                System.out.println("Errores de parser y scanner");
+                return errorListener.toString();
             }
-            else {
 
-                if (ac.errors == null){
-                    return errorListener.toString();
-                }
-                errores += ac.errors +"\n"+errorListener.toString();
-                return errores;
-            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}
-
-        return null;
+        return "Pene";
     }
 
 
-    @GetMapping("/getWords")
-    public Response getWord(@RequestParam(value = "name") String name) {
-        Response res;
-        String result = test();
 
-        System.out.println( name );
-        try {
-            res = new Response(String.format(data, result), "200");
-        }catch (Error error){
-            res = new Response(null, "500");
-        }
 
-        return res;
-    }
 
     @GetMapping("/getAllWords")
     public Response getAllWord() {
         Response res;
-        String result = test();
-
+        String result = analizador();
         try {
             res = new Response(String.format(data, result), "200");
         }catch (Error error){
             res = new Response(null, "500");
         }
-
         return res;
     }
 
     @PostMapping("/postWord")
     public void postWord(@RequestBody String name){
-
         crearEscribirArchivo("test", name);
     }
 
