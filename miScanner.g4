@@ -1,5 +1,5 @@
     /*
-    Scanner - I Proyecto - Compiladores e Intérpretes
+    Scanner - II Proyecto - Compiladores e Intérpretes
     Jose Ignacio Alfaro Solano - Warner Fidel Hurtado Laguna
 */
 
@@ -17,6 +17,7 @@ PCIZQ  : '['   ;
 PCDER  : ']'   ;
 PUNTO  : '.'                                                                ;
 COMI   : '"'                                                                ;
+COMISIMPLE : '\''                                                           ;
 
 fragment SUMA        : '+'                                                           ;
 fragment RESTA       : '-'                                                           ;
@@ -31,8 +32,10 @@ fragment MENOR : '<'                                                        ;
 
 ROPERATOR   : MENOR | MAYOR | IGUALES | DIFERENTE | MENORIGU | MAYORIGU ;
 
-STYPE     : 'boolean' | 'char' | 'int' | 'string'                        ;
-
+BOOLEAN: 'boolean';
+CHAR   : 'char';
+INT    : 'int';
+STRING : 'string';
 
 fragment AND         : '&&'                                                      ;
 fragment OR          : '||'                                                      ;
@@ -41,7 +44,7 @@ fragment MULTIPLI    : '*'                                                      
 
 AOP       : SUMA | RESTA | OR                      ;
 MOP       : MULTIPLI | DIVISION | AND              ;
-UNARY      : SUMA | RESTA | ADMIRACION              ;
+UNARY      : SUMA | RESTA | ADMIRACION             ;
 
 IF      : 'if'    ;
 ELSE   : 'else'      ;
@@ -55,17 +58,19 @@ LENGTH : 'length'   ;
 
 INTLITERAL       : DIGIT (DIGIT)* ;
 
-REALLITERAL      : DIGIT (DIGIT)* PUNTO (DIGIT)* | PUNTO DIGIT (DIGIT)* ;
+//REALLITERAL      : DIGIT (DIGIT)* PUNTO (DIGIT)* | PUNTO DIGIT (DIGIT)* ;
 
-BOOLITERAL      : 'true' | 'false' ;
+TRUE: 'true';
+FALSE: 'false';
 
 STRINGLITERAL    : COMI (PRINTABLE)* COMI ;
 
+CHARLITERAL      : COMISIMPLE (PRINTABLE)? COMISIMPLE;
 
 ID : (UNDERS | LETTER) (UNDERS | LETTER | DIGIT)* ;
 
-fragment PRINTABLE :  DIGIT | LETTER | ' ' | '" "' | ADMIRACION | '#' | '$' | '%' | '&'      |
-                     '\'' | PIZQ | PDER | MULTIPLI | SUMA | COMA | RESTA | PUNTO      |
+fragment PRINTABLE :  DIGIT | LETTER | ' ' | '" "' | ADMIRACION | '#' | '$' | '%' | '&' |
+                     COMISIMPLE | PIZQ | PDER | MULTIPLI | SUMA | COMA | RESTA | PUNTO      |
                      DIVISION | ':' | PyCOMA | MENOR | ASSIGN | MAYOR | '?' | '@'     |
                      PIZQ | '\\' | PCDER | '^' | UNDERS | '`' | KEYIZQ | '|' | KEYDER |
                      '~';

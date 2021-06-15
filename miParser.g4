@@ -4,82 +4,97 @@ options {
     tokenVocab = miScanner;
 }
 
-program  : ( statement )*;
+program  : ( statement )*                                                                               #programAST;
 
 statement:
-  variableDeclaration PyCOMA
-  | classDeclaration PyCOMA
-  | assigment PyCOMA
-  | arrayAssignment PyCOMA
-  | printStatement PyCOMA
-  | ifStatement
-  | whileStatement
-  | returnStatement PyCOMA
-  | funtionDeclaration
-  | block ;
+    variableDeclaration PyCOMA                                                                          #variableDeclStaAST
+    | classDeclaration PyCOMA																			#classDeclStaAST
+    | assigment PyCOMA																					#assignStaAST
+    | arrayAssignment PyCOMA																			#arrAsignStaAST
+    | printStatement PyCOMA																			    #printStaAST
+    | ifStatement																						#ifStaAST
+    | whileStatement																					#whileStaAST
+    | returnStatement PyCOMA																			#returnStaAST
+    | funtionDeclaration																				#functionDeclStaAST
+    | block																							    #blockStaAST;
 
-block                     : KEYIZQ ( statement )* KEYDER ;
+block                     : KEYIZQ ( statement )* KEYDER 												#blockAST;
 
-funtionDeclaration        : type ID PIZQ ( formalParams )? PDER block ;
+funtionDeclaration        : type ID PIZQ ( formalParams )? PDER block PyCOMA 							#functionDeclAST;
 
-formalParams        : formalParam ( COMA formalParam)* ;
+formalParams
+locals [int cantParams = 0 ]
+     : formalParam ( COMA formalParam)* 													            #fParamsAST;
 
-formalParam         : type ID;
+formalParam         : type ID																			#fParamAST;
 
-whileStatement      : WHILE PIZQ expression PDER block ;
+whileStatement      : WHILE PIZQ expression PDER block 													#whileStmmtAST;
 
-ifStatement         : IF PIZQ expression PDER block ( ELSE block )? ;
+ifStatement         : IF PIZQ expression PDER block ( ELSE block )? 									#ifStmntAST;
 
-returnStatement     : RETURN expression ;
+returnStatement     : RETURN expression 																#returnStmntAST;
 
-printStatement      : PRINT expression ;
+printStatement      : PRINT expression 																	#printStmntAST;
 
-classDeclaration    : CLASS ID KEYIZQ (classVariableDeclaration)* KEYDER;
+classDeclaration    : CLASS ID KEYIZQ (classVariableDeclaration)* KEYDER							    #classDelcAST;
 
-classVariableDeclaration : STYPE ID (ASSIGN expression)? ;
+classVariableDeclaration : stype ID (ASSIGN expression)? PyCOMA                                         #classVariableDeclAST;
 
-variableDeclaration : type ID (ASSIGN expression)?;
+variableDeclaration : type ID (ASSIGN expression)?                                       	            #variableDeclAST;
 
-type                : STYPE | arrayType | ID;
 
-arrayType           : STYPE PCIZQ PCDER;
+type                : stype                                                                             #stypeTypeAST
+                    | arrayType                                                                         #arrtypeTypeAST
+                    | ID                                                                                #idTypeAST;
 
-assigment           : ID (PUNTO ID)? ASSIGN expression ;
+stype               : BOOLEAN | CHAR | INT | STRING                                                     #stypeAST;
 
-arrayAssignment     : ID PCIZQ expression PCDER ASSIGN expression ;
+arrayType           : stype PCIZQ PCDER																	#arrTypeAST;
 
-expression       : simpleExpression (ROPERATOR simpleExpression)* ;
+assigment           : ID (PUNTO ID)? ASSIGN expression 													#asssignAST;
 
-simpleExpression : term (AOP term)* ;
+arrayAssignment     : ID PCIZQ expression PCDER ASSIGN expression 									    #arrAssignAST;
 
-term             : factor (MOP factor)* ;
+expression       : simpleExpression (ROPERATOR simpleExpression)* 							         	#expressionAST;
+
+simpleExpression : term (AOP term)* 														            #simpleExpressionAST;
+
+term             : factor (MOP factor)* 												                #termAST;
 
 factor           :
-    literal                   |
-    ID (PUNTO ID)?            |
-    funtionCall               |
-    arrayLookup               |
-    arrayLength               |
-    subExpression             |
-    arrayAllocationExpression |
-    allocationExpression      |
-    unary ;
+    literal                                                                                             #literalFactAST
+    | ID (PUNTO ID)?                                                                                    #puntIdFactAST
+    | funtionCall                                                                                       #funtionCallFactAST
+    | arrayLookup                                                                                       #arrayLokupFactAST
+    | arrayLength                                                                                       #lengthFactAST
+    | subExpression                                                                                     #subExpressionFactAST
+    | arrayAllocationExpression                                                                         #arrayAlloExpreFactAST
+    | allocationExpression                                                                              #allocaExpreFactAST
+    | unary 																						    #unaryFactAST;
 
 
-unary                     : (UNARY) (expression)* ;
+unary                     : UNARY (expression)* 									                    #unaryAST;
 
-allocationExpression      : NEW ID PIZQ PDER ;
+allocationExpression      : NEW ID PIZQ PDER 															#allocationExprAST;
 
-arrayAllocationExpression : NEW STYPE PCIZQ expression PCDER ;
+arrayAllocationExpression : NEW stype PCIZQ expression PCDER 											#arrAllocationExprAST;
 
-subExpression    : PIZQ expression PDER ;
+subExpression    : PIZQ expression PDER                                                                 #subExprAST;
 
-funtionCall      : ID PIZQ (actualParams)? PDER ;
+funtionCall      : ID PIZQ (actualParams)? PDER 														#functionCallAST;
 
-actualParams     : expression (COMA expression)* ;
+actualParams
+locals [int cantParams = 0 ]
+    : expression (COMA expression)* 														            #actualParamsAST;
 
-arrayLookup      : ID PCIZQ expression PCDER ;
+arrayLookup      : ID PCIZQ expression PCDER                                                            #arrLookupAST;
 
-arrayLength      : ID PUNTO LENGTH ;
+arrayLength      : ID PUNTO LENGTH 															            #arrLengthAST;
 
-literal          : INTLITERAL  | REALLITERAL | BOOLITERAL | STRINGLITERAL;
+literal          : INTLITERAL                                                                           #intLiteralAST
+                  //| REALLITERAL                                                                         #realLiteralAST
+                  | booleanLiteral                                                                      #boolLiteralAST
+                  | STRINGLITERAL                                                                       #stringLiteralAST
+                  | CHARLITERAL                                                                         #charListeralAST;
+
+booleanLiteral      : TRUE | FALSE                                                                      #booleanLiteralAST;

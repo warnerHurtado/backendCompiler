@@ -1,8 +1,10 @@
 package com.example.demo;
 
+import analysisContext.AnalisisContextual;
 import generated.*;
 
 
+import interprete.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -35,11 +37,33 @@ public class Controllers {
         }
     }
 
-    private String test(){
+    public static String json(){
+        Almacen alma = Almacen.getInstance();
+        StringBuilder elJson = new StringBuilder("{");
+        for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
 
+            elJson.append("dato_").append(i).append(": [");
+            elJson.append(alma.tablaAlmacen.get(i).nombre).append(",");
+            elJson.append(alma.tablaAlmacen.get(i).valor).append(",");
+            elJson.append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName());
+            elJson.append("],");
+
+        }
+        elJson.append("}");
+
+        return elJson.toString();
+
+    }
+
+// Función que debe de ser sustituída en el archivo controller
+
+    private String test() {
+        String errores = "";
         miScanner inst = null;
         miParser parser = null;
         ParseTree tree=null;
+        AnalisisContextual ac = null;
+        Interprete inter = null;
 
         CommonTokenStream tokens = null;
         MyErrorListener errorListener = null;
@@ -56,22 +80,39 @@ public class Controllers {
             parser.removeErrorListeners();
             parser.addErrorListener ( errorListener );
 
+
             try {
                 tree = parser.program();
+                ac = new AnalisisContextual();
+                inter = new Interprete();
+
+                ac.visit(tree);
             }
-            catch(RecognitionException e){
-                System.out.println("Error!!!");
+            catch(Exception e){
+
                 e.printStackTrace();
             }
 
             if ( !errorListener.hasErrors() ) {
-                //java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
-                //treeGUI.get().setVisible(true);
 
-                return errorListener.toString();
+                 if ((ac.errors.equals(""))){
+                    assert inter != null;
+                    inter.visit(tree);
+
+
+                    return json();
+
+                }
+                errores = ac.errors;
+                return errores;
             }
             else {
-                return errorListener.toString();
+
+                if (ac.errors == null){
+                    return errorListener.toString();
+                }
+                errores += ac.errors +"\n"+errorListener.toString();
+                return errores;
             }
         }
 
