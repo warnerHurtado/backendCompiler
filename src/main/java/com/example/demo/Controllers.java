@@ -83,6 +83,7 @@ public class Controllers {
                     System.out.println("Sin errores de contextualidad");
                     inter.visit(tree); // Se debe de validar los errores
                     System.out.println(json());
+                    return json();
                 }else{
                     // Se retorna los errores contextuales
                     System.out.println("Con errores de contextualidad");
@@ -96,9 +97,9 @@ public class Controllers {
 
         } catch (IOException e) {
             e.printStackTrace();
+            return "No hay archivo, error interno";
         }
 
-        return "Pene";
     }
 
 
