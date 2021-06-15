@@ -23,6 +23,10 @@ public class TablaSimbolos {
         return inst;
     }
 
+    public void wipeTable(){
+        this.tabla.clear();
+    }
+
     public void insertar(String id, String tipo, ParserRuleContext decl){
         //no se puede insertar un elemento repetido en el mismo nivel
         Ident i = new Ident(id,tipo,decl, nivelActual, null );

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import analysisContext.AnalisisContextual;
+import analysisContext.TablaSimbolos;
 import generated.*;
 
 
@@ -41,13 +42,11 @@ public class Controllers {
         Almacen alma = Almacen.getInstance();
         StringBuilder elJson = new StringBuilder("{");
         for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
-
             elJson.append("dato_").append(i).append(": [");
             elJson.append(alma.tablaAlmacen.get(i).nombre).append(",");
             elJson.append(alma.tablaAlmacen.get(i).valor).append(",");
             elJson.append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName());
             elJson.append("],");
-
         }
         elJson.append("}");
 
@@ -75,7 +74,6 @@ public class Controllers {
             tree = parser.program();
             AnalisisContextual ac = new AnalisisContextual();
             Interprete inter = new Interprete();
-
 
             if( !errorListener.hasErrors() ){ //Errores de parser y scanner
                 ac.visit(tree); // Visita al contextual
@@ -127,8 +125,9 @@ public class Controllers {
     public Response wipeData(){
         Response res;
         Almacen alma = Almacen.getInstance();
-        System.out.println(alma);
+        TablaSimbolos tabla = TablaSimbolos.getInstance();
         alma.wipeData();
+        tabla.wipeTable();
         return new Response( "Table cleaned", "200" );
     }
 
