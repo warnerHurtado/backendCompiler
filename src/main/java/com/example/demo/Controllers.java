@@ -18,6 +18,7 @@ public class Controllers {
 
 
     private static  final String data = "%s!";
+    private boolean error = false;
 
 
     public static void crearEscribirArchivo(String nomArchi, String nuevoDato) {
@@ -62,6 +63,7 @@ public class Controllers {
         CommonTokenStream tokens = null;
         MyErrorListener errorListener = null;
         try {
+            this.error = false;
             input = CharStreams.fromFileName("test.txt");
             inst = new miScanner(input);
             tokens = new CommonTokenStream(inst);
@@ -85,10 +87,12 @@ public class Controllers {
                 }else{
                     // Se retorna los errores contextuales
                     System.out.println("Con errores de contextualidad");
+                    this.error = true;
                     return ac.errors;
                 }
             }else{
                 System.out.println("Errores de parser y scanner");
+                this.error = true;
                 return errorListener.toString();
             }
 
@@ -102,16 +106,14 @@ public class Controllers {
 
 
 
-
-
     @GetMapping("/getAllWords")
     public Response getAllWord() {
         Response res;
         String result = analizador();
-        try {
+        if ( this.error ){
             res = new Response(String.format(data, result), "200");
-        }catch (Error error){
-            res = new Response(null, "500");
+        }else{
+            res = new Response(String.format(data, result), "500");
         }
         return res;
     }
