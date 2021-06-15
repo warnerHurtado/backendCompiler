@@ -45,7 +45,7 @@ public class Almacen {
     }
 
     public boolean wipeData(){
-        almacenInstance = null;
+        tablaAlmacen.clear();
         return true;
     }
 
