@@ -17,7 +17,7 @@ import java.io.*;
 public class Controllers {
 
 
-    private static  final String data = "%s!";
+    private static  final String data = "%s";
     private boolean error = false;
 
 
@@ -56,6 +56,7 @@ public class Controllers {
     }
 
     private String analizador(){
+
         miScanner inst = null;
         miParser parser = null;
         ParseTree tree=null;
