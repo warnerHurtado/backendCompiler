@@ -110,7 +110,7 @@ public class Controllers {
     public Response getAllWord() {
         Response res;
         String result = analizador();
-        if ( this.error ){
+        if ( !this.error ){
             res = new Response(String.format(data, result), "200");
         }else{
             res = new Response(String.format(data, result), "500");
