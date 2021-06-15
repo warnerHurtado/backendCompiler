@@ -123,6 +123,15 @@ public class Controllers {
         crearEscribirArchivo("test", name);
     }
 
+    @GetMapping("/wipeData")
+    public Response wipeData(){
+        Response res;
+        Almacen alma = Almacen.getInstance();
+        System.out.println(alma);
+        alma.wipeData();
+        return new Response( "Table cleaned", "200" );
+    }
+
 
 
 }

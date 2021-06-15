@@ -44,6 +44,11 @@ public class Almacen {
         return almacenInstance;
     }
 
+    public boolean wipeData(){
+        almacenInstance = null;
+        return true;
+    }
+
     public void agregarInstancia(String nombre, Object valor){
         this.tablaAlmacen.addFirst(new Instancia(nombre, valor, nivelActual));
 
