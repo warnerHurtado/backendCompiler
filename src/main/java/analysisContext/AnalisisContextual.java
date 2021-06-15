@@ -383,8 +383,8 @@ public class AnalisisContextual extends miParserBaseVisitor {
                     //this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
                     errors += "Error, sólo se permite declaraciones de variables en las clases.\n";
                 } else {
-                    switch (tipo) {
-                        case "boolean", "string", "char", "int" -> this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
+                    if ( tipo.equals("boolean") || tipo.equals("string") || tipo.equals("char") || tipo.equals("int") ){
+                        this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
                     }
                }
             } else {
@@ -415,8 +415,8 @@ public class AnalisisContextual extends miParserBaseVisitor {
                         //this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
                         errors += "Error, sólo se permite declaraciones de variables en las clases.\n";
                     } else {
-                        switch (tipo) {
-                            case "boolean", "string", "char", "int" -> this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
+                        if ( tipo.equals("boolean") || tipo.equals("string") || tipo.equals("char") || tipo.equals("int") ){
+                            this.tabla.insertar(pilaExpresiones.pop() + "." + ctx.ID().getText(), tipo, null);
                         }
                     }
                 } else {
@@ -774,7 +774,7 @@ public class AnalisisContextual extends miParserBaseVisitor {
                 simpleExpre2 = (String) this.visit(ctx.term(i));
 
                 switch (aOperador) {
-                    case "||" -> {
+                    case "||" : {
                         if (simpleExpre2 != null && simpleExpre1 != null) {
                             if (!simpleExpre1.equals("boolean") || !simpleExpre2.equals("boolean")) {
                                 errors +=("Error, <" + simpleExpre1 + "> y <" + simpleExpre2 + "> son  incompatibles, sólo se permiten tipos (boolean) en el operador  \"" + aOperador + "\".\n");
@@ -802,7 +802,7 @@ public class AnalisisContextual extends miParserBaseVisitor {
                             } else return "boolean";
                         }
                     }
-                    case "+" -> {
+                    case "+" : {
                         if (simpleExpre2 != null && simpleExpre1 != null) {
                             if (simpleExpre1.equals("boolean") || simpleExpre1.equals("char") || (simpleExpre2.equals("boolean") || simpleExpre2.equals("char"))) {
                                 errors +=("Error, <" + simpleExpre1 + "> y <" + simpleExpre2 + "> son  incompatibles, sólo se permiten tipos (int o string) en el operador  \"" + aOperador + "\".\n");
@@ -836,7 +836,7 @@ public class AnalisisContextual extends miParserBaseVisitor {
                             else return "string";
                         }
                     }
-                    case "-" -> {
+                    case "-" : {
                         if (simpleExpre2 != null && simpleExpre1 != null) {
                             if (simpleExpre1.equals("boolean") || simpleExpre1.equals("char") || simpleExpre1.equals("string") || simpleExpre2.equals("string") || (simpleExpre2.equals("boolean") || simpleExpre2.equals("char"))) {
                                 errors +=("Error, <" + simpleExpre1 + "> y <" + simpleExpre2 + "> son  incompatibles, sólo se permiten tipos (int) en el operador  \"" + aOperador + "\".\n");
@@ -868,7 +868,7 @@ public class AnalisisContextual extends miParserBaseVisitor {
                     }
                 }
             }catch (Exception e){
-                errors +=("Error, operando con datos no validos!\n");
+                errors += ("Error, operando con datos no validos!\n");
             }
 
         }

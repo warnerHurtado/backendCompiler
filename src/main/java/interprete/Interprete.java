@@ -370,7 +370,7 @@ public class Interprete extends miParserBaseVisitor {
         }else{
             return null;
         }
-        
+
     }
 
     @Override
