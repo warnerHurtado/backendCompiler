@@ -40,7 +40,7 @@ public class Controllers {
         }
     }
 
-    public static String json(){
+    public static String json( String prints ){
         Almacen alma = Almacen.getInstance();
         StringBuilder elJson = new StringBuilder("{");
         for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
@@ -50,12 +50,12 @@ public class Controllers {
             elJson.append("\"").append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName()).append("\"");
             elJson.append("],");
         }
+        elJson.append("[").append("\"").append(prints).append("\"").append("],");
         elJson.append("}");
-
         return elJson.toString();
 
     }
-
+    
     private String analizador(){
 
         miScanner inst = null;
@@ -87,8 +87,8 @@ public class Controllers {
                     inter.visit(tree); // Se debe de validar los errores
                     if ( inter.errors.length() == 0 ){
                         System.out.println("Sin errores de interpretación");
-                        System.out.println(json());
-                        return json();
+                        System.out.println(json( inter.prints ));
+                        return json( inter.prints );
                     }else{
                         System.out.println("Con errores de interpretación");
                         this.error = true;

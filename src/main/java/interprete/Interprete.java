@@ -11,6 +11,7 @@ public class Interprete extends miParserBaseVisitor {
     private Almacen almacenDatos;
 
     public String errors = "";
+    public String prints = "";
 
 
     public Interprete(){
@@ -158,7 +159,7 @@ public class Interprete extends miParserBaseVisitor {
 
     @Override
     public Object visitPrintStmntAST(miParser.PrintStmntASTContext ctx) {
-        System.out.println(this.visit(ctx.expression()) + " <-- Imprimiendo el valor de "+ ctx.expression().getText());
+        prints += this.visit(ctx.expression()) + " <-- Imprimiendo el valor de "+ ctx.expression().getText() + "\n";
         return null;
     }
 
