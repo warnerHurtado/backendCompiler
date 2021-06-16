@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
+
 public class Controllers {
 
 
@@ -43,7 +44,7 @@ public class Controllers {
         Almacen alma = Almacen.getInstance();
         StringBuilder elJson = new StringBuilder("{");
         for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
-            elJson.append("\"dato_").append(i).append("\"").append(": [");
+            elJson.append("\"datos").append(i).append("\"").append(": [");
             elJson.append("\"").append(alma.tablaAlmacen.get(i).nombre).append("\"").append(",");
             elJson.append("\"").append(alma.tablaAlmacen.get(i).valor).append("\"").append(",");
             elJson.append("\"").append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName()).append("\"");
