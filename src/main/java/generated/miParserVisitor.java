@@ -1,4 +1,4 @@
-// Generated from C:/Users/warne/Desktop/backendCompiler\miParser.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Huawei D14/Desktop/backendCompiler\miParser.g4 by ANTLR 4.9.1
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -296,6 +296,20 @@ public interface miParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnaryFactAST(miParser.UnaryFactASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code chrFactorAST}
+	 * labeled alternative in {@link miParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitChrFactorAST(miParser.ChrFactorASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ordFactorAST}
+	 * labeled alternative in {@link miParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrdFactorAST(miParser.OrdFactorASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code unaryAST}
 	 * labeled alternative in {@link miParser#unary}.

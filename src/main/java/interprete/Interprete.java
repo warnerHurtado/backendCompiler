@@ -10,10 +10,24 @@ public class Interprete extends miParserBaseVisitor {
     private Stack<Object> pilaExpresiones;
     private Almacen almacenDatos;
 
+    public String errors = "";
+
+
     public Interprete(){
         this.pilaExpresiones = new Stack<Object>();
         this.almacenDatos = Almacen.getInstance();
     }
+
+    @Override
+    public Object visitOrdFactorAST(miParser.OrdFactorASTContext ctx) {
+        return ((int) ((Character) this.visit(ctx.expression())));
+    }
+
+    @Override
+    public Object visitChrFactorAST(miParser.ChrFactorASTContext ctx) {
+        return ((char) ((int) this.visit(ctx.expression())));
+    }
+
 
     @Override
     public Object visitProgramAST(miParser.ProgramASTContext ctx) {
@@ -130,7 +144,7 @@ public class Interprete extends miParserBaseVisitor {
             }
 
         }catch (Exception e){
-            System.out.println("Error, sólo se permiten expresiones booleanas en el if. \n");
+            errors += "Error, sólo se permiten expresiones booleanas en el if. \n";
         }
         almacenDatos.closeScope();
         return null;
@@ -297,7 +311,7 @@ public class Interprete extends miParserBaseVisitor {
         return super.visitArrAssignAST(ctx);
 
         }catch (Exception e){
-            System.out.println("Error, el índice ingresado para el arreglo <"+nombre+"> no está entre el tamaño del arreglo");
+            errors += "Error, el índice ingresado para el arreglo <"+nombre+"> no está entre el tamaño del arreglo\n";
             return super.visitArrAssignAST(ctx);
         }
     }
@@ -342,7 +356,7 @@ public class Interprete extends miParserBaseVisitor {
             try{
                 return (Integer) v1 / (Integer) v2;
             }catch (Exception e) {
-                System.out.println("Error,no se permite la divición entre cero.");
+                errors +="Error,no se permite la divición entre cero.\n";
             } ;
 
         }else if(op.equals("+")){
@@ -353,7 +367,7 @@ public class Interprete extends miParserBaseVisitor {
                 try {
                     return v1 + (String) v2;
                 }catch (Exception err){
-                    System.out.println("Error, está tratando de sumar o concatenar un dato inválido.");
+                    errors +="Error, está tratando de sumar o concatenar un dato inválido.\n";
                 }
 
             }
@@ -509,14 +523,14 @@ public class Interprete extends miParserBaseVisitor {
         Object[] value = (Object[]) almacenDatos.getInstancia(ctx.ID().getText()).valor;
 
         if (value == null){
-            System.out.println("Error, el array en ese index aún no ha sido asignado!.");
+            errors += "Error, el array en ese index aún no ha sido asignado!.\n";
         }
 
         try {
             assert value != null;
             return value[(Integer) this.visit(ctx.expression())];
         }catch (Exception e){
-            System.out.println("Error, el index "+this.visit(ctx.expression())+" está fuera del rango del array.");
+            errors += "Error, el index "+this.visit(ctx.expression())+" está fuera del rango del array.\n";
             return null;
         }
     }

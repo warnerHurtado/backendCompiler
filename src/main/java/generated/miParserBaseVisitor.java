@@ -1,4 +1,4 @@
-// Generated from C:/Users/warne/Desktop/backendCompiler\miParser.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Huawei D14/Desktop/backendCompiler\miParser.g4 by ANTLR 4.9.1
 package generated;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -298,6 +298,20 @@ public class miParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitUnaryFactAST(miParser.UnaryFactASTContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitChrFactorAST(miParser.ChrFactorASTContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitOrdFactorAST(miParser.OrdFactorASTContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
