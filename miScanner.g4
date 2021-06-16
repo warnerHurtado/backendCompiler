@@ -58,6 +58,9 @@ LENGTH : 'length'   ;
 
 INTLITERAL       : DIGIT (DIGIT)* ;
 
+CHR    : 'chr';
+ORD    : 'ord';
+
 //REALLITERAL      : DIGIT (DIGIT)* PUNTO (DIGIT)* | PUNTO DIGIT (DIGIT)* ;
 
 TRUE: 'true';

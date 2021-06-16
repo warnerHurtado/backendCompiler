@@ -40,7 +40,7 @@ public class Controllers {
         }
     }
 
-    public static String json(){
+    public static String json( String prints ){
         Almacen alma = Almacen.getInstance();
         StringBuilder elJson = new StringBuilder("{");
         for (int i = 0; i < alma.tablaAlmacen.size(); i++) {
@@ -50,10 +50,9 @@ public class Controllers {
             elJson.append("\"").append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName()).append("\"");
             elJson.append("],");
         }
+        elJson.append("\"printable\":").append("[").append("\"").append(prints).append("\"").append("],");
         elJson.append("}");
-
         return elJson.toString();
-
     }
 
     private String analizador(){
@@ -83,9 +82,17 @@ public class Controllers {
                 ac.visit(tree); // Visita al contextual
                 if ( ac.errors.length() == 0 ){ // Se verifica que el contextual no tenga errores
                     System.out.println("Sin errores de contextualidad");
+
                     inter.visit(tree); // Se debe de validar los errores
-                    System.out.println(json());
-                    return json();
+                    if ( inter.errors.length() == 0 ){
+                        System.out.println("Sin errores de interpretación");
+                        System.out.println(json( inter.prints ));
+                        return json( inter.prints );
+                    }else{
+                        System.out.println("Con errores de interpretación");
+                        this.error = true;
+                        return inter.errors;
+                    }
                 }else{
                     // Se retorna los errores contextuales
                     System.out.println("Con errores de contextualidad");
@@ -97,7 +104,6 @@ public class Controllers {
                 this.error = true;
                 return errorListener.toString();
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();

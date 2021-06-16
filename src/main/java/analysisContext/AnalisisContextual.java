@@ -22,6 +22,38 @@ public class AnalisisContextual extends miParserBaseVisitor {
    }
 
     @Override
+    public Object visitOrdFactorAST(miParser.OrdFactorASTContext ctx) {
+        if(ctx.expression() != null){
+            if (this.visit(ctx.expression()).equals("char")){
+                return "int";
+            }else {
+                errors += "Error, sólo se permiten parámetros tipo char en la función < ord >. \n";
+                return null;
+            }
+        }else {
+            errors += "Error, no se reconoce el parámetro ingresado. \n";
+            return null;
+        }
+
+    }
+
+    @Override
+    public Object visitChrFactorAST(miParser.ChrFactorASTContext ctx) {
+        if(ctx.expression() != null){
+            if (this.visit(ctx.expression()).equals("int")){
+                return "char";
+            }else {
+                errors += "Error, sólo se permiten parámetros tipo int en la función < chr >. \n";
+                return null;
+            }
+        }else {
+            errors += "Error, no se reconoce el parámetro ingresado. \n";
+            return null;
+        }
+
+    }
+
+    @Override
     public Object visitStype(miParser.StypeContext ctx) {
 
         switch (ctx.getText()) {

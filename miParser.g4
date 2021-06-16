@@ -70,7 +70,9 @@ factor           :
     | subExpression                                                                                     #subExpressionFactAST
     | arrayAllocationExpression                                                                         #arrayAlloExpreFactAST
     | allocationExpression                                                                              #allocaExpreFactAST
-    | unary 																						    #unaryFactAST;
+    | unary 																						    #unaryFactAST
+    | CHR PIZQ expression PDER                                                                          #chrFactorAST
+    | ORD PIZQ expression PDER                                                                          #ordFactorAST;
 
 
 unary                     : UNARY (expression)* 									                    #unaryAST;
