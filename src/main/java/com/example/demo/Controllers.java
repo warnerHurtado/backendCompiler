@@ -50,12 +50,11 @@ public class Controllers {
             elJson.append("\"").append(alma.tablaAlmacen.get(i).valor.getClass().getSimpleName()).append("\"");
             elJson.append("],");
         }
-        elJson.append("[").append("\"").append(prints).append("\"").append("],");
+        elJson.append("\"printable\":").append("[").append("\"").append(prints).append("\"").append("],");
         elJson.append("}");
         return elJson.toString();
-
     }
-    
+
     private String analizador(){
 
         miScanner inst = null;
