@@ -159,7 +159,7 @@ public class Interprete extends miParserBaseVisitor {
 
     @Override
     public Object visitPrintStmntAST(miParser.PrintStmntASTContext ctx) {
-        prints += this.visit(ctx.expression()) + " <-- Imprimiendo el valor de "+ ctx.expression().getText() + "$";
+        prints += this.visit(ctx.expression()) + " <-- Imprimiendo el valor de "+ ctx.expression().getText() + "\n";
         return null;
     }
 
